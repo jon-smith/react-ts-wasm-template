@@ -1,10 +1,10 @@
 {
-	"name": "raichu",
+	"name": "react-ts-wasm-template",
 	"version": "0.1.0",
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/jon-smith/raichu"
+		"url": "git+https://github.com/jon-smith/react-ts-wasm-template"
 	},
 	"author": {
 		"name": "jon-smith",
@@ -12,9 +12,9 @@
 	},
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/jon-smith/raichu/issues"
+		"url": "https://github.com/jon-smith/react-ts-wasm-template/issues"
 	},
-	"homepage": "http://jon-smith.github.io/raichu",
+	"homepage": "http://jon-smith.github.io/react-ts-wasm-template",
 	"dependencies": {
 		"@material-ui/core": "^4.11.0",
 		"@material-ui/icons": "^4.9.1",

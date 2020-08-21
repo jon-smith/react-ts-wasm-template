@@ -1,11 +1,15 @@
-# raichu
+# react-ts-wasm-template
 
-A simple web-app for viewing and analysing GPX/TCX data. Written using [Typescript](https://www.typescriptlang.org/), [React](https://reactjs.org/)
-([Create React App](https://github.com/facebook/create-react-app)), [Redux](https://redux.js.org/), [Rust and WebAssembly](https://rustwasm.github.io/).
+A simple web-app template using [Typescript](https://www.typescriptlang.org/), [React](https://reactjs.org/)
+([Create React App](https://github.com/facebook/create-react-app)), [Redux](https://redux.js.org/), [WebAssembly (Rust)](https://rustwasm.github.io/) and Web Workers.
 
 ## Prerequisites
 
 The Rust toolchain and `wasm-pack` is required to build the Rust/Webassembly code located in the rust-wasm directory. See the [`wasm-pack` documentation](https://rustwasm.github.io/wasm-pack/book/quickstart.html) for more information.
+
+## Linting
+
+Uses ESLint and prettier for linting and formatting.
 
 ## Usage
 
@@ -42,6 +46,10 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `npm run deploy`
+
+Deploys the application to GitHub pages using gh-pages.
+
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
@@ -57,3 +65,5 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 WebAssembly modules created with [Rust](https://www.rust-lang.org/) and [wasm-pack](https://rustwasm.github.io/wasm-pack/) using the [wasm-pack-template](https://github.com/rustwasm/wasm-pack).
+
+Web Workers use [worker-loader](https://github.com/webpack-contrib/worker-loader) and [comlink](https://github.com/GoogleChromeLabs/comlink).
