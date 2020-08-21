@@ -1,19 +1,13 @@
 import React, { useMemo } from 'react';
 import XYPlot, { DataSeriesT } from 'generic-components/charts/xy-plot';
 import { formatSecondsAsTimeWords } from 'library/utils/time-format-utils';
-import {
-	defaultTimeTicksForBestSplits,
-	defaultDistanceTicksForBestSplits,
-} from './best-split-x-values';
-import { BestSplitDisplayOption } from './best-split-display-option';
+import { defaultTimeTicksForBestSplits } from './best-split-x-values';
 
 function frontBack<T>(a: T[]) {
 	return [a[0], a[a.length - 1]] as const;
 }
 
 const defaultTimeAxisRange = frontBack(defaultTimeTicksForBestSplits);
-
-const defaultPaceCurveXDomain = frontBack(defaultDistanceTicksForBestSplits);
 
 function calcYDomain(series: readonly DataSeriesT[]) {
 	let yRange = null as [number, number] | null;
@@ -62,53 +56,14 @@ const BestSplitPlotImpl = (props: BestSplitPlotImplProps) => {
 	);
 };
 
-function bestSplitChartProps(o: BestSplitDisplayOption) {
-	switch (o) {
-		case 'heartrate':
-			return {
-				defaultXDomain: defaultTimeAxisRange,
-				xAxisLabel: 'time',
-				yAxisLabel: 'HR',
-				xTickFormat: formatSecondsAsTimeWords,
-				xTickValues: defaultTimeTicksForBestSplits,
-			};
-		case 'power':
-			return {
-				defaultXDomain: defaultTimeAxisRange,
-				xAxisLabel: 'time',
-				yAxisLabel: 'power',
-				xTickFormat: formatSecondsAsTimeWords,
-				xTickValues: defaultTimeTicksForBestSplits,
-			};
-		case 'speed':
-			return {
-				defaultXDomain: defaultPaceCurveXDomain,
-				xAxisLabel: 'distance',
-				yAxisLabel: 'speed',
-				xTickFormat: String,
-				xTickValues: defaultDistanceTicksForBestSplits,
-			};
-		case 'pace':
-			return {
-				defaultXDomain: defaultPaceCurveXDomain,
-				xAxisLabel: 'distance',
-				yAxisLabel: 'pace',
-				xTickFormat: String,
-				xTickValues: defaultDistanceTicksForBestSplits,
-			};
-		default:
-			return {
-				defaultXDomain: defaultPaceCurveXDomain,
-				xAxisLabel: '',
-				yAxisLabel: '',
-				xTickFormat: String,
-				xTickValues: defaultDistanceTicksForBestSplits,
-			};
-	}
-}
+const bestSplitChartProps = {
+	defaultXDomain: defaultTimeAxisRange,
+	xAxisLabel: 'time',
+	yAxisLabel: 'power',
+	xTickFormat: formatSecondsAsTimeWords,
+	xTickValues: defaultTimeTicksForBestSplits,
+};
 
-export default function BestSplitPlot(
-	props: Pick<BestSplitPlotImplProps, 'series'> & { option: BestSplitDisplayOption }
-) {
-	return <BestSplitPlotImpl series={props.series} {...bestSplitChartProps(props.option)} />;
+export default function BestSplitPlot(props: Pick<BestSplitPlotImplProps, 'series'>) {
+	return <BestSplitPlotImpl series={props.series} {...bestSplitChartProps} />;
 }
