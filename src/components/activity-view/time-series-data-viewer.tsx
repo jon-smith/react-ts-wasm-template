@@ -1,54 +1,50 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import lodash from 'lodash';
 
-import useThrottledState from 'generic-components/hooks/use-throttled-state';
-import XYPlot, { DataSeriesT } from 'generic-components/charts/xy-plot';
+import XYPlot, { DataSeriesT, DataPoint } from 'generic-components/charts/xy-plot';
 
-import { getProcessedAndSmoothedTimeSeries } from 'library/activity-data/activity-calculator';
-import { ActivityContainer } from 'library/activity-data/activity-container';
 import { buildNiceTimeTicksToDisplay } from 'library/utils/chart-utils';
 import { formatSecondsAsHHMMSS } from 'library/utils/time-format-utils';
 
-import { useActivitySelector } from 'store/reducers';
+import { useDataProcessorSelector, useActivitySelector } from 'store/reducers';
 import { getSelectedActivity } from 'store/activity-data/selectors';
+import { useDispatchCallback, useAppDispatch } from 'store/dispatch-hooks';
+import { smoothData, dataSmoothingRequired, setSmoothingRadius } from 'store/data-processor/slice';
 
 import TimeSeriesSelection from './time-series-selection';
 
-function buildTimeSeries(
-	d: ActivityContainer | undefined,
-	movingAverageRadius: number,
-	name: string
-): DataSeriesT {
-	const timeSeries = d
-		? getProcessedAndSmoothedTimeSeries(
-				d,
-				'power',
-				{
-					interpolateNull: true,
-					maxGapForInterpolation: undefined,
-					resolution: 1,
-				},
-				{ movingAverageRadius }
-		  )
-		: undefined;
-
+function buildTimeSeries(timeSeries: DataPoint[]): DataSeriesT {
 	return {
-		name,
-		data: timeSeries?.smoothed ?? [],
+		name: 'time-series',
+		data: timeSeries,
 		seriesType: 'line',
 		color: '#966fd6',
 	};
 }
 
 const TimeSeriesDataViewer = () => {
-	const [movingAverage, throttledMovingAverage, setMovingAverage] = useThrottledState(0, 1);
+	const activity = useActivitySelector((s) => getSelectedActivity(s));
 
-	const selectedActivity = useActivitySelector((s) => getSelectedActivity(s));
-
-	const timeSeries = useMemo(
-		() => [buildTimeSeries(selectedActivity, throttledMovingAverage, 'time-series')],
-		[selectedActivity, throttledMovingAverage]
+	const { movingAverage, timeSeries, generateRequired, isGenerating } = useDataProcessorSelector(
+		(s) => ({
+			movingAverage: s.smoothingRadius,
+			timeSeries: [buildTimeSeries(s.processedData.series)],
+			generateRequired: dataSmoothingRequired(s, activity),
+			isGenerating: s.isGenerating,
+		})
 	);
+
+	const dispatch = useAppDispatch();
+
+	const setMovingAverage = useDispatchCallback(setSmoothingRadius);
+
+	useEffect(() => {
+		// Only start generating new intervals when the previous interval generation has completed
+		// This ensures only 1 worker is running at once
+		if (generateRequired && !isGenerating) {
+			dispatch(smoothData({ activity, smoothingRadius: movingAverage }));
+		}
+	}, [activity, movingAverage, generateRequired, isGenerating, dispatch]);
 
 	const timeTicks = useMemo(() => {
 		const maxTimeSeconds = lodash.max(timeSeries.flatMap((s) => s.data.map((d) => d.x))) ?? 0;
