@@ -1,5 +1,5 @@
 [package]
-name = "jolteon"
+name = "rust-wasm-lib"
 version = "0.1.0"
 authors = ["jon-smith"]
 edition = "2018"

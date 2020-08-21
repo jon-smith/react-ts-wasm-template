@@ -11,7 +11,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import { useFormStyles } from 'components/styles/form-styles';
 
-import { getGlobalWasmState, enableWasm } from 'wasm/jolteon-loader';
+import { getGlobalWasmState, enableWasm } from 'wasm/wasm-loader';
 
 const checkIsWasmEnabled = () => {
 	const { failedToLoad, isEnabled } = getGlobalWasmState();

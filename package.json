@@ -22,7 +22,7 @@
 		"@reduxjs/toolkit": "^1.4.0",
 		"d3": "^5.16.0",
 		"geolib": "^3.3.1",
-		"jolteon-wasm": "file:./rust-wasm/pkg",
+		"rust-wasm-lib": "file:./rust-wasm/pkg",
 		"lodash": "^4.17.20",
 		"rc-time-picker": "^3.7.3",
 		"react": "^16.13.1",

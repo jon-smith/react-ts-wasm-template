@@ -1,4 +1,4 @@
-import { getGlobalWasmState, getWasmLibIfLoaded, enableWasm } from 'wasm/jolteon-loader';
+import { getGlobalWasmState, getWasmLibIfLoaded, enableWasm } from 'wasm/wasm-loader';
 
 describe('wasm global test', () => {
 	beforeAll(async () => {

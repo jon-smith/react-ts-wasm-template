@@ -5,7 +5,7 @@ import {
 	Result,
 } from 'library/activity-data/best-split-calculator';
 import { movingAverageObj } from 'library/utils/array-utils';
-import { getWasmLibIfLoaded } from 'wasm/jolteon-loader';
+import { getWasmLibIfLoaded } from 'wasm/wasm-loader';
 import { ActivityContainer, ExtendedPoint } from './activity-container';
 
 export type Variable = 'heartrate' | 'power' | 'cadence' | 'elevation' | 'time';
