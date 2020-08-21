@@ -23,6 +23,10 @@ Compiles the Rust code and builds WebAssembly modules for both the web-app (foun
 
 Runs the native unit tests in the Rust code using `cargo test`.
 
+### `npm install`
+
+Installs the required packages from package.json.
+
 ### `npm start`
 
 Runs the app in the development mode.<br />
