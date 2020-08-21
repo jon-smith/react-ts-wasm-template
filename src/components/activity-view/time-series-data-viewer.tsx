@@ -25,14 +25,16 @@ function buildTimeSeries(timeSeries: DataPoint[]): DataSeriesT {
 const TimeSeriesDataViewer = () => {
 	const activity = useActivitySelector((s) => getSelectedActivity(s));
 
-	const { movingAverage, timeSeries, generateRequired, isGenerating } = useDataProcessorSelector(
+	const { movingAverage, dataSeries, generateRequired, isGenerating } = useDataProcessorSelector(
 		(s) => ({
 			movingAverage: s.smoothingRadius,
-			timeSeries: [buildTimeSeries(s.processedData.series)],
+			dataSeries: s.processedData.series,
 			generateRequired: dataSmoothingRequired(s, activity),
 			isGenerating: s.isGenerating,
 		})
 	);
+
+	const timeSeries = useMemo(() => [buildTimeSeries(dataSeries)], [dataSeries]);
 
 	const dispatch = useAppDispatch();
 
