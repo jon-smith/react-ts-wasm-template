@@ -6,11 +6,11 @@ import {
 } from 'library/activity-data/best-split-calculator';
 import { movingAverageObj } from 'library/utils/array-utils';
 import { getWasmLibIfLoaded } from 'wasm/wasm-loader';
-import { ActivityContainer, ExtendedPoint } from './activity-container';
+import { ActivityContainer, ActivityPoint } from './activity-container';
 
 export type Variable = 'heartrate' | 'power' | 'cadence' | 'elevation' | 'time';
 
-const getVar = (p: ExtendedPoint, v: Variable) => {
+const getVar = (p: ActivityPoint, v: Variable) => {
 	switch (v) {
 		case 'heartrate':
 			return p.heartRate ?? null;
