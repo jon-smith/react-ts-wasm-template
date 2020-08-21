@@ -49,9 +49,9 @@ const TimeSeriesDataViewer = () => {
 	}, [activity, movingAverage, generateRequired, isGenerating, dispatch]);
 
 	const timeTicks = useMemo(() => {
-		const maxTimeSeconds = lodash.max(timeSeries.flatMap((s) => s.data.map((d) => d.x))) ?? 0;
+		const maxTimeSeconds = lodash.max(dataSeries.map((d) => d.x)) ?? 0;
 		return buildNiceTimeTicksToDisplay(maxTimeSeconds, 6);
-	}, [timeSeries]);
+	}, [dataSeries]);
 
 	return (
 		<>
