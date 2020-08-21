@@ -41,7 +41,7 @@ export default function TitleBarAndContent<T>(props: React.PropsWithChildren<{}>
 			<AppBar position="fixed" className={classes.appBar}>
 				<Toolbar>
 					<Typography variant="h6" className={classes.title} noWrap>
-						raichu
+						react-ts-wasm-template
 					</Typography>
 					<SettingsButtonMenu />
 				</Toolbar>
