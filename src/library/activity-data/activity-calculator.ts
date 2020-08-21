@@ -1,6 +1,5 @@
 import {
 	calculateMaxAveragesForDistances as maxAveragesForDistances,
-	calculateMinTimesForDistances,
 	interpolateNullValues,
 	Result,
 } from 'library/activity-data/best-split-calculator';
@@ -124,75 +123,23 @@ export function getProcessedAndSmoothedTimeSeries(
 	return { processed, smoothed };
 }
 
-type BestSplitOption = 'heartrate' | 'power' | 'cadence' | 'time' | 'speed';
-
-export function asRawVariable(o: BestSplitOption): Variable | null {
-	switch (o) {
-		case 'heartrate':
-			return 'heartrate';
-		case 'power':
-			return 'power';
-		case 'cadence':
-			return 'cadence';
-		case 'time':
-			return 'time';
-		default:
-			return null;
-	}
-}
-
 function getInterpolatedDataPointsForBestSplits(
 	data: ActivityContainer,
-	option: BestSplitOption,
 	maxGapForInterpolation: number
 ) {
-	const rawVariable = asRawVariable(option);
+	const dataPoints = data.filledPoints.map((p) =>
+		p.data !== undefined ? getVar(p.data, 'power') ?? null : null
+	);
 
-	if (rawVariable) {
-		const dataPoints = data.filledPoints.map((p) =>
-			p.data !== undefined ? getVar(p.data, rawVariable) ?? null : null
-		);
-
-		return interpolateNullValues(dataPoints, maxGapForInterpolation);
-	}
-	if (option === 'speed') {
-		// For speed, we first interpolate cumulative distance and then calc speed from that
-		const distances = data.filledPoints.map((p) => p.data?.cumulativeDistance ?? null);
-		const interpolatedDistances = interpolateNullValues(distances, maxGapForInterpolation);
-
-		// Set all speeds to zero
-		const speeds = interpolatedDistances.map((_) => 0);
-
-		let previousDistance = interpolatedDistances[0] ?? 0;
-		for (let i = 1; i < interpolatedDistances.length; ++i) {
-			const distance = interpolatedDistances[i];
-			if (distance != null) {
-				const delta = distance - previousDistance;
-				if (delta > 0) {
-					// Each index is a unit of time, so no need to divide by t
-					speeds[i] = delta;
-				}
-				previousDistance = distance;
-			}
-		}
-
-		return speeds;
-	}
-
-	return [];
+	return interpolateNullValues(dataPoints, maxGapForInterpolation);
 }
 
 export const getBestSplitsVsTime = (
 	data: ActivityContainer,
-	option: BestSplitOption,
 	timeRanges: number[],
 	maxGapForInterpolation: number
 ): Result[] => {
-	const interpolatedData = getInterpolatedDataPointsForBestSplits(
-		data,
-		option,
-		maxGapForInterpolation
-	);
+	const interpolatedData = getInterpolatedDataPointsForBestSplits(data, maxGapForInterpolation);
 
 	const maxTime = interpolatedData.length;
 	const timeRangesToUse = timeRanges.filter((t) => t <= maxTime);
@@ -208,13 +155,3 @@ export const getBestSplitsVsTime = (
 
 	return maxAveragesForDistances(interpolatedData, timeRangesToUse);
 };
-
-export function getMinTimesPerDistance(data: ActivityContainer, distances: number[]) {
-	return calculateMinTimesForDistances(
-		data.flatPoints.map((d) => ({
-			time: d.secondsSinceStart,
-			cumulativeDistance: d.cumulativeDistance,
-		})),
-		distances
-	);
-}

@@ -10,12 +10,7 @@ import BestSplitPlot from './best-split-plot';
 import { timeIntervalsForBestSplits } from './best-split-x-values';
 
 function buildPowerCurve(d: ActivityContainer) {
-	const bestSplits = activityCalculator.getBestSplitsVsTime(
-		d,
-		'power',
-		timeIntervalsForBestSplits,
-		10
-	);
+	const bestSplits = activityCalculator.getBestSplitsVsTime(d, timeIntervalsForBestSplits, 10);
 
 	const bestSplitsDataPoints = bestSplits.map((r) => ({
 		x: r.distance,
