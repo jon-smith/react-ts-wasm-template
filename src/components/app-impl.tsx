@@ -3,7 +3,7 @@ import React from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import ActivityDataViewer from './activity-view/activity-data-viewer';
-import ResponsiveDrawerNav from './title-bar-and-content';
+import TitleBarAndContent from './title-bar-and-content';
 
 import 'rc-time-picker/assets/index.css';
 import './main.css';
@@ -20,9 +20,9 @@ const theme = createMuiTheme({
 export default function AppImpl() {
 	return (
 		<ThemeProvider theme={theme}>
-			<ResponsiveDrawerNav>
+			<TitleBarAndContent>
 				<ActivityDataViewer />
-			</ResponsiveDrawerNav>
+			</TitleBarAndContent>
 		</ThemeProvider>
 	);
 }
