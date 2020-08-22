@@ -20,9 +20,27 @@ pub fn init() {
 }
 
 #[wasm_bindgen]
+pub fn get_greeting() -> String {
+    "hello 👋 browser, 💙 frm rust-wasm 🦀".into()
+}
+
+#[wasm_bindgen]
 pub fn greet() {
     use web_sys::console;
-    console::log_1(&"hello 👋 browser, 💙 frm rust-wasm 🍄".into());
+    let greeting = get_greeting();
+    console::log_1(&greeting.into());
+}
+
+#[cfg(test)]
+mod tests {
+    
+    use super::*;
+
+    #[test]
+    fn test_we_used_the_crab_emoji() {
+        let greeting = get_greeting();
+        assert!(greeting.contains("🦀"));
+    }
 }
 
 #[wasm_bindgen(typescript_custom_section)]

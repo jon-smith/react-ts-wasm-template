@@ -4,6 +4,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import ActivityDataViewer from './activity-view/activity-data-viewer';
 import TitleBarAndContent from './title-bar-and-content';
+import WasmTestButton from './wasm-test-button';
 
 import 'rc-time-picker/assets/index.css';
 import './main.css';
@@ -21,6 +22,7 @@ export default function AppImpl() {
 	return (
 		<ThemeProvider theme={theme}>
 			<TitleBarAndContent>
+				<WasmTestButton />
 				<ActivityDataViewer />
 			</TitleBarAndContent>
 		</ThemeProvider>
