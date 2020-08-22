@@ -6,7 +6,6 @@ import ActivityDataViewer from './activity-view/activity-data-viewer';
 import TitleBarAndContent from './title-bar-and-content';
 import WasmTestButton from './wasm-test-button';
 
-import 'rc-time-picker/assets/index.css';
 import './main.css';
 
 const palette = {

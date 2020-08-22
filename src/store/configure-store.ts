@@ -1,8 +1,7 @@
-import { enableBatching } from 'redux-batched-actions';
 import { configureStore as toolkitConfigure, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { rootReducer } from './reducers';
 
-const makeReducer = () => enableBatching(rootReducer);
+const makeReducer = () => rootReducer;
 
 const configureStore = () => {
 	const store = toolkitConfigure({
