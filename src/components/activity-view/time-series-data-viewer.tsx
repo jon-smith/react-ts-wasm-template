@@ -11,7 +11,7 @@ import { getSelectedActivity } from 'store/activity-data/selectors';
 import { useDispatchCallback, useAppDispatch } from 'store/dispatch-hooks';
 import { smoothData, dataSmoothingRequired, setSmoothingRadius } from 'store/data-processor/slice';
 
-import TimeSeriesSelection from './time-series-selection';
+import TimeSeriesControlBar from './time-series-control-bar';
 
 function buildTimeSeries(timeSeries: DataPoint[]): DataSeriesT {
 	return {
@@ -55,7 +55,10 @@ const TimeSeriesDataViewer = () => {
 
 	return (
 		<>
-			<TimeSeriesSelection movingAverage={movingAverage} onChangeMovingAverage={setMovingAverage} />
+			<TimeSeriesControlBar
+				movingAverage={movingAverage}
+				onChangeMovingAverage={setMovingAverage}
+			/>
 			<XYPlot
 				className="test-data-chart"
 				series={timeSeries}

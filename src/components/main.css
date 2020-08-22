@@ -29,16 +29,3 @@ body {
 .test-data-chart {
 	min-height: 300px;
 }
-
-.workout-creator-panel {
-	min-width: 600px;
-}
-
-.workout-creator-activity-data-chart {
-	height: 300px;
-	width: 100%;
-}
-
-.workout-creator-chart {
-	height: 50vh;
-}
