@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
-import { DataProcessorState, reducer as dataProcessorReducer } from './data-processor/slice';
+import { WebWorkerDemoState, reducer as webWorkerDemoReducer } from './web-worker-demo/slice';
 
 export const rootReducer = combineReducers({
-	dataProcessor: dataProcessorReducer,
+	webWorkerDemo: webWorkerDemoReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -12,6 +12,6 @@ export type RootState = ReturnType<typeof rootReducer>;
 export const useRootSelector = <T extends unknown>(selector: (s: RootState) => T) =>
 	useSelector<RootState, T>((s) => selector(s));
 
-export const useDataProcessorSelector = <T extends unknown>(
-	selector: (s: DataProcessorState) => T
-) => useSelector<RootState, T>((s) => selector(s.dataProcessor));
+export const useWebWorkerDemoSelector = <T extends unknown>(
+	selector: (s: WebWorkerDemoState) => T
+) => useSelector<RootState, T>((s) => selector(s.webWorkerDemo));

@@ -2,20 +2,20 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { getSmoothedTimeSeries } from 'library/activity-data/activity-calculator';
 import { fromJSONData } from 'library/activity-data/activity-container';
 import { clamp } from 'library/utils/math-utils';
-import { performDataSmoothing } from './worker-caller';
+import { runWebWorker } from './worker-caller';
 import ExampleData from 'library/activity-data/data/example-over-unders';
 
 type TimeSeriesT = ReturnType<typeof getSmoothedTimeSeries>;
 
 const exampleDataLoaded = fromJSONData(ExampleData);
 
-export type DataProcessorState = Readonly<{
+export type WebWorkerDemoState = Readonly<{
 	smoothingRadius: number;
 	isGenerating: boolean;
 	processedData: { series: TimeSeriesT; smoothingRadius?: number };
 }>;
 
-const defaultState: DataProcessorState = {
+const defaultState: WebWorkerDemoState = {
 	smoothingRadius: 0,
 	isGenerating: false,
 	processedData: {
@@ -23,16 +23,16 @@ const defaultState: DataProcessorState = {
 	},
 };
 
-export function dataSmoothingRequired(state: DataProcessorState) {
+export function dataSmoothingRequired(state: WebWorkerDemoState) {
 	if (state.processedData.smoothingRadius === undefined) return true;
 
 	return state.processedData.smoothingRadius !== state.smoothingRadius;
 }
 
 export const smoothData = createAsyncThunk(
-	'dataProcessing/smoothData',
+	'webWorkerDemo/runWorker',
 	async (smoothingRadius: number) => {
-		const series = await performDataSmoothing(exampleDataLoaded, smoothingRadius);
+		const series = await runWebWorker(exampleDataLoaded, smoothingRadius);
 		return {
 			series,
 			smoothingRadius,
@@ -40,8 +40,8 @@ export const smoothData = createAsyncThunk(
 	}
 );
 
-const dataProcessorSlice = createSlice({
-	name: 'dataProcessing',
+const webWorkerDemoSlice = createSlice({
+	name: 'webWorkerDemo',
 	initialState: defaultState,
 	reducers: {
 		setSmoothingRadius(state, action: PayloadAction<number>) {
@@ -62,6 +62,6 @@ const dataProcessorSlice = createSlice({
 	},
 });
 
-export const { reducer, actions } = dataProcessorSlice;
+export const { reducer, actions } = webWorkerDemoSlice;
 
 export const { setSmoothingRadius } = actions;

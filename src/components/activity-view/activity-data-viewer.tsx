@@ -6,9 +6,9 @@ import XYPlot, { DataSeriesT, DataPoint } from 'generic-components/charts/xy-plo
 import { buildNiceTimeTicksToDisplay } from 'library/utils/chart-utils';
 import { formatSecondsAsHHMMSS } from 'library/utils/time-format-utils';
 
-import { useDataProcessorSelector } from 'store/reducers';
+import { useWebWorkerDemoSelector } from 'store/reducers';
 import { useDispatchCallback, useAppDispatch } from 'store/dispatch-hooks';
-import { smoothData, dataSmoothingRequired, setSmoothingRadius } from 'store/data-processor/slice';
+import { smoothData, dataSmoothingRequired, setSmoothingRadius } from 'store/web-worker-demo/slice';
 
 import TimeSeriesControlBar from './time-series-control-bar';
 
@@ -22,7 +22,7 @@ function buildTimeSeries(timeSeries: DataPoint[]): DataSeriesT {
 }
 
 const ActivityDataViewer = () => {
-	const { movingAverage, dataSeries, generateRequired, isGenerating } = useDataProcessorSelector(
+	const { movingAverage, dataSeries, generateRequired, isGenerating } = useWebWorkerDemoSelector(
 		(s) => ({
 			movingAverage: s.smoothingRadius,
 			dataSeries: s.processedData.series,
