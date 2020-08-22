@@ -1,5 +1,3 @@
-import { fillMissingIndices } from 'library/activity-data/best-split-calculator';
-
 export interface ActivityPoint {
 	time: Date; // UTC
 
@@ -18,7 +16,6 @@ type JsonActivity = {
 export type ActivityContainer = {
 	source: JsonActivity;
 	flatPoints: ActivityPoint[];
-	filledPoints: { index: number; data?: ActivityPoint }[];
 };
 
 type ActivityAttributes = {
@@ -34,12 +31,8 @@ export function getAttributes(activityContainer: ActivityContainer): ActivityAtt
 }
 
 export function fromJSONData(data: JsonActivity): ActivityContainer {
-	const filledPoints = fillMissingIndices(
-		data.points.map((d) => ({ ...d, index: d.secondsSinceStart }))
-	);
 	return {
 		source: data,
 		flatPoints: data.points,
-		filledPoints,
 	};
 }

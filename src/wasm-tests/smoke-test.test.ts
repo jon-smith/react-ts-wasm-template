@@ -18,8 +18,5 @@ describe('wasm smoke test', () => {
 
 		expect(wasm.greet).toBeTruthy();
 		expect(typeof wasm.greet).toBe('function');
-
-		expect(wasm.best_averages_for_distances).toBeTruthy();
-		expect(typeof wasm.best_averages_for_distances).toBe('function');
 	});
 });

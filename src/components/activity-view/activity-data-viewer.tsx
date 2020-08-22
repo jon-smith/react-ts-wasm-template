@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useActivitySelector } from 'store/reducers';
 
-import BestSplitPlotViewer from './best-split/best-split-view';
 import TimeSeriesDataViewer from './time-series-data-viewer';
 
 import { loadExampleData } from 'store/activity-data/slice';
@@ -26,7 +25,6 @@ const ActivityDataViewer = () => {
 	return (
 		<div className="activity-data-viewer">
 			<TimeSeriesDataViewer />
-			<BestSplitPlotViewer />
 		</div>
 	);
 };
