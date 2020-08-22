@@ -32,15 +32,10 @@ export async function loadWasmLib() {
 const globalDeferredLoad = makeDeferred();
 
 const globalState = {
-	isEnabled: true,
 	isLoading: false,
 	failedToLoad: false,
 	promise: globalDeferredLoad.promise,
 };
-
-export function enableWasm(enable: boolean) {
-	globalState.isEnabled = enable;
-}
 
 export function getGlobalWasmState() {
 	return { ...globalState };
@@ -62,7 +57,7 @@ function loadAsyncHelper() {
 
 	loadWasm();
 
-	return () => (globalState.isEnabled ? wasm : undefined);
+	return () => wasm;
 }
 
 // A function that will return the wasm lib if loaded globally or return undefined if not

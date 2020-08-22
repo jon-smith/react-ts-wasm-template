@@ -6,8 +6,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
-import SettingsButtonMenu from './settings-button-menu';
-
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
@@ -43,7 +41,6 @@ export default function TitleBarAndContent<T>(props: React.PropsWithChildren<{}>
 					<Typography variant="h6" className={classes.title} noWrap>
 						react-ts-wasm-template
 					</Typography>
-					<SettingsButtonMenu />
 				</Toolbar>
 			</AppBar>
 			<main className={classes.content}>
