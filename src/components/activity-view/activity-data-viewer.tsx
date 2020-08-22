@@ -8,7 +8,7 @@ import { formatSecondsAsHHMMSS } from 'library/utils/time-format-utils';
 
 import { useWebWorkerDemoSelector } from 'store/reducers';
 import { useDispatchCallback, useAppDispatch } from 'store/dispatch-hooks';
-import { smoothData, dataSmoothingRequired, setSmoothingRadius } from 'store/web-worker-demo/slice';
+import { processData, dataProcessingRequired, setInput } from 'store/web-worker-demo/slice';
 
 import TimeSeriesControlBar from './time-series-control-bar';
 
@@ -24,9 +24,9 @@ function buildTimeSeries(timeSeries: DataPoint[]): DataSeriesT {
 const ActivityDataViewer = () => {
 	const { movingAverage, dataSeries, generateRequired, isGenerating } = useWebWorkerDemoSelector(
 		(s) => ({
-			movingAverage: s.smoothingRadius,
+			movingAverage: s.input,
 			dataSeries: s.processedData.series,
-			generateRequired: dataSmoothingRequired(s),
+			generateRequired: dataProcessingRequired(s),
 			isGenerating: s.isGenerating,
 		})
 	);
@@ -35,13 +35,13 @@ const ActivityDataViewer = () => {
 
 	const dispatch = useAppDispatch();
 
-	const setMovingAverage = useDispatchCallback(setSmoothingRadius);
+	const setMovingAverage = useDispatchCallback(setInput);
 
 	useEffect(() => {
 		// Only start generating new intervals when the previous interval generation has completed
 		// This ensures only 1 worker is running at once
 		if (generateRequired && !isGenerating) {
-			dispatch(smoothData(movingAverage));
+			dispatch(processData(movingAverage));
 		}
 	}, [movingAverage, generateRequired, isGenerating, dispatch]);
 

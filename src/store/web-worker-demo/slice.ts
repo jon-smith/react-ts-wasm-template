@@ -6,36 +6,37 @@ import { runWebWorker } from './worker-caller';
 import ExampleData from 'library/activity-data/data/example-over-unders';
 
 type WorkerResultT = AwaitedType<ReturnType<typeof runWebWorker>>;
+type WorkerInput = number;
 
 const exampleDataLoaded = fromJSONData(ExampleData);
 
 export type WebWorkerDemoState = Readonly<{
-	smoothingRadius: number;
+	input: WorkerInput;
 	isGenerating: boolean;
-	processedData: { series: WorkerResultT; smoothingRadius?: number };
+	processedData: { series: WorkerResultT; input?: WorkerInput };
 }>;
 
 const defaultState: WebWorkerDemoState = {
-	smoothingRadius: 0,
+	input: 0,
 	isGenerating: false,
 	processedData: {
 		series: [],
 	},
 };
 
-export function dataSmoothingRequired(state: WebWorkerDemoState) {
-	if (state.processedData.smoothingRadius === undefined) return true;
+export function dataProcessingRequired(state: WebWorkerDemoState) {
+	if (state.processedData.input === undefined) return true;
 
-	return state.processedData.smoothingRadius !== state.smoothingRadius;
+	return state.processedData.input !== state.input;
 }
 
-export const smoothData = createAsyncThunk(
+export const processData = createAsyncThunk(
 	'webWorkerDemo/runWorker',
-	async (smoothingRadius: number) => {
-		const series = await runWebWorker(exampleDataLoaded, smoothingRadius);
+	async (input: WorkerInput) => {
+		const series = await runWebWorker(exampleDataLoaded, input);
 		return {
 			series,
-			smoothingRadius,
+			input,
 		};
 	}
 );
@@ -44,18 +45,18 @@ const webWorkerDemoSlice = createSlice({
 	name: 'webWorkerDemo',
 	initialState: defaultState,
 	reducers: {
-		setSmoothingRadius(state, action: PayloadAction<number>) {
-			state.smoothingRadius = clamp(action.payload, 1, 600);
+		setInput(state, action: PayloadAction<WorkerInput>) {
+			state.input = clamp(action.payload, 1, 600);
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(smoothData.pending, (state) => {
+		builder.addCase(processData.pending, (state) => {
 			state.isGenerating = true;
 		});
-		builder.addCase(smoothData.rejected, (state) => {
+		builder.addCase(processData.rejected, (state) => {
 			state.isGenerating = false;
 		});
-		builder.addCase(smoothData.fulfilled, (state, { payload }) => {
+		builder.addCase(processData.fulfilled, (state, { payload }) => {
 			state.processedData = payload;
 			state.isGenerating = false;
 		});
@@ -64,4 +65,4 @@ const webWorkerDemoSlice = createSlice({
 
 export const { reducer, actions } = webWorkerDemoSlice;
 
-export const { setSmoothingRadius } = actions;
+export const { setInput } = actions;
