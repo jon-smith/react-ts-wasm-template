@@ -7,10 +7,8 @@ import { buildNiceTimeTicksToDisplay } from 'library/utils/chart-utils';
 import { formatSecondsAsHHMMSS } from 'library/utils/time-format-utils';
 
 import { useWebWorkerDemoSelector } from 'store/reducers';
-import { useDispatchCallback, useAppDispatch } from 'store/dispatch-hooks';
-import { processData, dataProcessingRequired, setInput } from 'store/web-worker-demo/slice';
-
-import TimeSeriesControlBar from './time-series-control-bar';
+import { useAppDispatch } from 'store/dispatch-hooks';
+import { processData, dataProcessingRequired } from 'store/web-worker-demo/slice';
 
 function buildTimeSeries(timeSeries: DataPoint[]): DataSeriesT {
 	return {
@@ -35,8 +33,6 @@ const ActivityDataViewer = () => {
 
 	const dispatch = useAppDispatch();
 
-	const setMovingAverage = useDispatchCallback(setInput);
-
 	useEffect(() => {
 		// Only start generating new intervals when the previous interval generation has completed
 		// This ensures only 1 worker is running at once
@@ -52,10 +48,6 @@ const ActivityDataViewer = () => {
 
 	return (
 		<div className="activity-data-viewer">
-			<TimeSeriesControlBar
-				movingAverage={movingAverage}
-				onChangeMovingAverage={setMovingAverage}
-			/>
 			<XYPlot
 				className="test-data-chart"
 				series={timeSeries}
