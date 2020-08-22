@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -9,9 +9,9 @@ import { useDispatchCallback, useAppDispatch } from 'store/dispatch-hooks';
 import { processData, dataProcessingRequired, setInput } from 'store/web-worker-demo/slice';
 
 export default function WebWorkerDemoView() {
-	const { input, dataSeries, generateRequired, isGenerating } = useWebWorkerDemoSelector((s) => ({
+	const { input, output, generateRequired, isGenerating } = useWebWorkerDemoSelector((s) => ({
 		input: s.input,
-		dataSeries: s.processedData.series,
+		output: s.processedData.series,
 		generateRequired: dataProcessingRequired(s),
 		isGenerating: s.isGenerating,
 	}));
@@ -29,7 +29,7 @@ export default function WebWorkerDemoView() {
 	}, [input, generateRequired, isGenerating, dispatch]);
 
 	const textToDisplay = () => {
-		return 'Web Worker Result: ' + String(dataSeries.length);
+		return output ? 'Calculated hash: ' + output : '';
 	};
 
 	return (
@@ -39,9 +39,9 @@ export default function WebWorkerDemoView() {
 				label="Input text for web-worker processing"
 				variant="filled"
 				value={input}
-				onChange={(e) => dispatchSetInput(Number(e.target.value))}
+				onChange={(e) => dispatchSetInput(e.target.value)}
 			/>
-			<div style={{ margin: '10px', height: '20px', width: '50%' }}>
+			<div style={{ marginTop: '10px', height: '10px', width: '50%' }}>
 				{isGenerating && <LinearProgress />}
 			</div>
 			<h3>{textToDisplay()}</h3>

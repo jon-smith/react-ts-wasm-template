@@ -1,14 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { fromJSONData } from 'library/activity-data/activity-container';
-import { clamp } from 'library/utils/math-utils';
 import { AwaitedType } from 'library/utils/type-utils';
 import { runWebWorker } from './worker-caller';
-import ExampleData from 'library/activity-data/data/example-over-unders';
 
 type WorkerResultT = AwaitedType<ReturnType<typeof runWebWorker>>;
-type WorkerInput = number;
-
-const exampleDataLoaded = fromJSONData(ExampleData);
+type WorkerInput = string;
 
 export type WebWorkerDemoState = Readonly<{
 	input: WorkerInput;
@@ -17,10 +12,10 @@ export type WebWorkerDemoState = Readonly<{
 }>;
 
 const defaultState: WebWorkerDemoState = {
-	input: 0,
+	input: '',
 	isGenerating: false,
 	processedData: {
-		series: [],
+		series: '',
 	},
 };
 
@@ -33,7 +28,7 @@ export function dataProcessingRequired(state: WebWorkerDemoState) {
 export const processData = createAsyncThunk(
 	'webWorkerDemo/runWorker',
 	async (input: WorkerInput) => {
-		const series = await runWebWorker(exampleDataLoaded, input);
+		const series = await runWebWorker(input);
 		return {
 			series,
 			input,
@@ -46,7 +41,7 @@ const webWorkerDemoSlice = createSlice({
 	initialState: defaultState,
 	reducers: {
 		setInput(state, action: PayloadAction<WorkerInput>) {
-			state.input = clamp(action.payload, 1, 600);
+			state.input = action.payload;
 		},
 	},
 	extraReducers: (builder) => {

@@ -1,12 +1,18 @@
 import * as Comlink from 'comlink';
 
-import { getSmoothedTimeSeries } from 'library/activity-data/activity-calculator';
-import { ActivityContainer } from 'library/activity-data/activity-container';
+const generateHash = (s: string) =>
+	s.split('').reduce((a, b) => {
+		a = (a << 5) - a + b.charCodeAt(0);
+		return a & a;
+	}, 0);
 
 const obj = {
-	async runWebWorker(activity: ActivityContainer | undefined, radius: number) {
+	async runWebWorker(input: string) {
+		// Waste some time
 		await new Promise((r) => setTimeout(r, 500));
-		return activity ? getSmoothedTimeSeries(activity, radius) : [];
+		if (!input) return '';
+		const hash = generateHash(input);
+		return String(hash);
 	},
 };
 

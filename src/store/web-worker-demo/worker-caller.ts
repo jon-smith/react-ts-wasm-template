@@ -4,10 +4,8 @@ import * as Comlink from 'comlink';
 import Worker from 'worker-loader!./worker';
 import { WorkerType } from './worker';
 
-import { ActivityContainer } from 'library/activity-data/activity-container';
-
-export async function runWebWorker(activity: ActivityContainer | undefined, radius: number) {
+export async function runWebWorker(input: string) {
 	const worker = Worker();
 	const workerObj = Comlink.wrap<WorkerType>(worker);
-	return workerObj.runWebWorker(activity, radius);
+	return workerObj.runWebWorker(input);
 }
