@@ -26,8 +26,7 @@ function buildPowerCurve(d: ActivityContainer) {
 function useBestSplitChartData() {
 	const selectedActivity = useActivitySelector((s) => getSelectedActivity(s));
 	return useMemo(() => {
-		const selectedActivities = selectedActivity ? [selectedActivity] : [];
-		return selectedActivities.map((a) => ({ ...buildPowerCurve(a), name: a.filename }));
+		return selectedActivity ? [{ ...buildPowerCurve(selectedActivity), name: 'pc' }] : [];
 	}, [selectedActivity]);
 }
 

@@ -11,7 +11,6 @@ import { useDispatchCallback } from 'store/dispatch-hooks';
 const ActivityDataViewer = () => {
 	const { activitiesLoaded } = useActivitySelector((s) => ({
 		activitiesLoaded: s.activities.length > 0,
-		view: s.view,
 	}));
 
 	const loadExampleDataCallback = useDispatchCallback(loadExampleData);
