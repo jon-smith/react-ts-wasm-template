@@ -1,17 +1,18 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { getSmoothedTimeSeries } from 'library/activity-data/activity-calculator';
-import { ActivityContainer } from 'library/activity-data/activity-container';
+import { fromJSONData } from 'library/activity-data/activity-container';
 import { clamp } from 'library/utils/math-utils';
 import { performDataSmoothing } from './worker-caller';
+import ExampleData from 'library/activity-data/data/example-over-unders';
 
 type TimeSeriesT = ReturnType<typeof getSmoothedTimeSeries>;
 
-type DataProcessingInput = { smoothingRadius: number; activity?: ActivityContainer };
+const exampleDataLoaded = fromJSONData(ExampleData);
 
 export type DataProcessorState = Readonly<{
 	smoothingRadius: number;
 	isGenerating: boolean;
-	processedData: { series: TimeSeriesT; input?: DataProcessingInput };
+	processedData: { series: TimeSeriesT; smoothingRadius?: number };
 }>;
 
 const defaultState: DataProcessorState = {
@@ -22,25 +23,19 @@ const defaultState: DataProcessorState = {
 	},
 };
 
-export function dataSmoothingRequired(
-	state: DataProcessorState,
-	activity: ActivityContainer | undefined
-) {
-	if (state.processedData.input === undefined) return true;
+export function dataSmoothingRequired(state: DataProcessorState) {
+	if (state.processedData.smoothingRadius === undefined) return true;
 
-	return (
-		state.processedData.input.activity !== activity ||
-		state.processedData.input.smoothingRadius !== state.smoothingRadius
-	);
+	return state.processedData.smoothingRadius !== state.smoothingRadius;
 }
 
 export const smoothData = createAsyncThunk(
 	'dataProcessing/smoothData',
-	async (input: DataProcessingInput) => {
-		const series = await performDataSmoothing(input.activity, input.smoothingRadius);
+	async (smoothingRadius: number) => {
+		const series = await performDataSmoothing(exampleDataLoaded, smoothingRadius);
 		return {
 			series,
-			input,
+			smoothingRadius,
 		};
 	}
 );
