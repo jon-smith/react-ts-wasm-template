@@ -1,18 +1,18 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { getSmoothedTimeSeries } from 'library/activity-data/activity-calculator';
 import { fromJSONData } from 'library/activity-data/activity-container';
 import { clamp } from 'library/utils/math-utils';
+import { AwaitedType } from 'library/utils/type-utils';
 import { runWebWorker } from './worker-caller';
 import ExampleData from 'library/activity-data/data/example-over-unders';
 
-type TimeSeriesT = ReturnType<typeof getSmoothedTimeSeries>;
+type WorkerResultT = AwaitedType<ReturnType<typeof runWebWorker>>;
 
 const exampleDataLoaded = fromJSONData(ExampleData);
 
 export type WebWorkerDemoState = Readonly<{
 	smoothingRadius: number;
 	isGenerating: boolean;
-	processedData: { series: TimeSeriesT; smoothingRadius?: number };
+	processedData: { series: WorkerResultT; smoothingRadius?: number };
 }>;
 
 const defaultState: WebWorkerDemoState = {
