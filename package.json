@@ -65,7 +65,9 @@
 	"eslintConfig": {
 		"extends": "react-app",
 		"rules": {
-			"@typescript-eslint/no-explicit-any": "error"
+			"@typescript-eslint/no-explicit-any": "error",
+			"no-var": "error",
+			"prefer-const": "error"
 		}
 	},
 	"browserslist": {

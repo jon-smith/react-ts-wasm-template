@@ -28,10 +28,6 @@ export default function WebWorkerDemoView() {
 		}
 	}, [input, generateRequired, isGenerating, dispatch]);
 
-	const textToDisplay = () => {
-		return output ? 'Calculated hash: ' + output : '';
-	};
-
 	return (
 		<Box display="flex" flexDirection="column" width="100%" alignItems="center">
 			<TextField
@@ -44,7 +40,7 @@ export default function WebWorkerDemoView() {
 			<div style={{ marginTop: '10px', height: '10px', width: '50%' }}>
 				{isGenerating && <LinearProgress />}
 			</div>
-			<h3>{textToDisplay()}</h3>
+			<h3>{output}</h3>
 		</Box>
 	);
 }
