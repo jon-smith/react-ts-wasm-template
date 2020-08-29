@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-ts-wasm-template/static/css/main.47c8e558.chunk.css",
-    "main.js": "/react-ts-wasm-template/static/js/main.2dc1d22c.chunk.js",
-    "main.js.map": "/react-ts-wasm-template/static/js/main.2dc1d22c.chunk.js.map",
+    "main.js": "/react-ts-wasm-template/static/js/main.b55a974a.chunk.js",
+    "main.js.map": "/react-ts-wasm-template/static/js/main.b55a974a.chunk.js.map",
     "runtime-main.js": "/react-ts-wasm-template/static/js/runtime-main.4607e556.js",
     "runtime-main.js.map": "/react-ts-wasm-template/static/js/runtime-main.4607e556.js.map",
     "static/js/2.d2bef7c6.chunk.js": "/react-ts-wasm-template/static/js/2.d2bef7c6.chunk.js",
@@ -10,10 +10,10 @@
     "static/js/3.e9be696d.chunk.js": "/react-ts-wasm-template/static/js/3.e9be696d.chunk.js",
     "fd30f95c0ef4be195ad9.module.wasm": "/react-ts-wasm-template/fd30f95c0ef4be195ad9.module.wasm",
     "static/js/3.e9be696d.chunk.js.map": "/react-ts-wasm-template/static/js/3.e9be696d.chunk.js.map",
-    "eb6465126593f7b766e8.worker.js": "/react-ts-wasm-template/eb6465126593f7b766e8.worker.js",
-    "eb6465126593f7b766e8.worker.js.map": "/react-ts-wasm-template/eb6465126593f7b766e8.worker.js.map",
+    "65cada0a26d0e3905eea.worker.js": "/react-ts-wasm-template/65cada0a26d0e3905eea.worker.js",
+    "65cada0a26d0e3905eea.worker.js.map": "/react-ts-wasm-template/65cada0a26d0e3905eea.worker.js.map",
     "index.html": "/react-ts-wasm-template/index.html",
-    "precache-manifest.803fd006edcdbb18d8a2d63c046c2239.js": "/react-ts-wasm-template/precache-manifest.803fd006edcdbb18d8a2d63c046c2239.js",
+    "precache-manifest.f73ee92cafd9d35c94d2b60de24b4b7b.js": "/react-ts-wasm-template/precache-manifest.f73ee92cafd9d35c94d2b60de24b4b7b.js",
     "service-worker.js": "/react-ts-wasm-template/service-worker.js",
     "static/css/main.47c8e558.chunk.css.map": "/react-ts-wasm-template/static/css/main.47c8e558.chunk.css.map",
     "static/js/2.d2bef7c6.chunk.js.LICENSE.txt": "/react-ts-wasm-template/static/js/2.d2bef7c6.chunk.js.LICENSE.txt"
@@ -22,6 +22,6 @@
     "static/js/runtime-main.4607e556.js",
     "static/js/2.d2bef7c6.chunk.js",
     "static/css/main.47c8e558.chunk.css",
-    "static/js/main.2dc1d22c.chunk.js"
+    "static/js/main.b55a974a.chunk.js"
   ]
 }
